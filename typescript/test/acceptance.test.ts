@@ -82,6 +82,7 @@ describe("A2 a paid call is verified, settled, then answered; failures get 402 a
     ["settle fails", (f: FakeFacilitator): void => { f.settleResult = { success: false, transaction: "", network: "base-sepolia", errorReason: "insufficient_funds" }; }, ["verify", "settle"], "insufficient_funds"],
     ["verify throws", (f: FakeFacilitator): void => { f.throwOn = "verify"; }, ["verify"], "facilitator_unavailable"],
     ["settle throws", (f: FakeFacilitator): void => { f.throwOn = "settle"; }, ["verify", "settle"], "facilitator_unavailable"],
+    ["settle fails with a free text dump", (f: FakeFacilitator): void => { f.settleResult = { success: false, transaction: "", network: "base-sepolia", errorReason: "HTTP request failed.\nURL: https://rpc.example/ secret" }; }, ["verify", "settle"], "settlement_failed"],
   ] as const)("A2 %s -> 402, no work", async (_name, setup, calls, error) => {
     const f = new FakeFacilitator();
     setup(f);

@@ -56,7 +56,14 @@ environment and is never logged. The paying wallet owns the listing.
 
 Live demo (base-sepolia, test USDC only): https://x402-paid-agent-starter.vercel.app/paid
 
-Transaction hash of one paid call: pending (the test payer wallet is waiting for faucet USDC). To produce it: fund a test wallet with base-sepolia USDC from https://faucet.circle.com, then `PAYER_PRIVATE_KEY=0x... npm run pay-once -- <url>` and paste the printed transaction here.
+Transaction hash of one paid call: 0xb8b6df73bc5fea0829f88780700410df9a1f20cf5cb4ea375381c46e00c895e3
+(TypeScript starter, live demo https://x402-paid-agent-starter.vercel.app/paid, 0.01 test USDC, status success: https://sepolia.basescan.org/tx/0xb8b6df73bc5fea0829f88780700410df9a1f20cf5cb4ea375381c46e00c895e3)
+
+The other starter's paid call: 0xe5f8bd4daa092edf57c72f875935ce95f94fbf53f44892c8f38f0a1830f206f5 (Python starter, run locally: https://sepolia.basescan.org/tx/0xe5f8bd4daa092edf57c72f875935ce95f94fbf53f44892c8f38f0a1830f206f5)
+
+Both runs on 23 October 2026: unpaid GET answered 402, then the same GET with X-PAYMENT was verified, settled
+on base-sepolia and answered 200. Facilitator: the public PayAI facilitator (`X402_FACILITATOR_URL=https://facilitator.payai.network`,
+no key), because x402.org's settle failed on its own RPC at the time. Reproduce: fund a test wallet with base-sepolia USDC (https://faucet.circle.com), then `PAYER_PRIVATE_KEY=0x... npm run pay-once -- <url>`.
 
 ## Code map
 

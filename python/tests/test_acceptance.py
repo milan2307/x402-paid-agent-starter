@@ -125,6 +125,7 @@ def test_A2_paid_call_verified_settled_then_answered():
     (lambda f: setattr(f, "settle_result", {"success": False, "transaction": "", "network": "base-sepolia", "errorReason": "insufficient_funds"}), ["verify", "settle"], "insufficient_funds"),
     (lambda f: setattr(f, "throw_on", "verify"), ["verify"], "facilitator_unavailable"),
     (lambda f: setattr(f, "throw_on", "settle"), ["verify", "settle"], "facilitator_unavailable"),
+    (lambda f: setattr(f, "settle_result", {"success": False, "transaction": "", "network": "base-sepolia", "errorReason": "HTTP request failed.\nURL: https://rpc.example/ secret"}), ["verify", "settle"], "settlement_failed"),
 ])
 def test_A2_failed_verify_or_settle_gets_402_and_no_work(setup, calls, error):
     f = FakeFacilitator()

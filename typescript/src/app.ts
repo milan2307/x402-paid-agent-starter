@@ -46,9 +46,9 @@ export function createApp(options: AppOptions): { fetch(request: Request): Promi
 
     try {
       const verified = await options.facilitator.verify(payment, requirements);
-      if (!verified.isValid) return paymentRequired(requirements, verified.invalidReason ?? "payment_invalid");
+      if (!verified.isValid) return paymentRequired(requirements, reasonCode(verified.invalidReason, "payment_invalid"));
       const settled = await options.facilitator.settle(payment, requirements);
-      if (!settled.success) return paymentRequired(requirements, settled.errorReason ?? "settlement_failed");
+      if (!settled.success) return paymentRequired(requirements, reasonCode(settled.errorReason, "settlement_failed"));
       const result = await work(request);
       return json(200, result, { "X-PAYMENT-RESPONSE": encodeHeader(settled) });
     } catch {
@@ -76,6 +76,9 @@ function validateOptions(o: AppOptions): void {
 
 const json = (status: number, body: unknown, headers: Record<string, string> = {}) =>
   new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json", "cache-control": "no-store", ...headers } });
+
+/** Facilitator reasons are passed on only as short codes; free text (RPC dumps, URLs) is replaced. */
+const reasonCode = (reason: string | undefined, fallback: string) => (reason && /^[a-z0-9_]{1,64}$/.test(reason) ? reason : fallback);
 
 const paymentRequired = (requirements: PaymentRequirements, error: string) => json(402, { x402Version: 1, error, accepts: [requirements] });
 

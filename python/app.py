@@ -5,6 +5,7 @@ Run: uvicorn app:app (reads the environment through config.py)."""
 from __future__ import annotations
 
 import inspect
+import re
 from typing import Any, Callable
 
 from fastapi import FastAPI, Request
@@ -51,10 +52,10 @@ def create_app(*, price: str, pay_to: str, network: str, facilitator: Facilitato
         try:
             verified = await facilitator.verify(payment, requirements)
             if not verified.get("isValid"):
-                return _payment_required(requirements, verified.get("invalidReason") or "payment_invalid")
+                return _payment_required(requirements, _reason_code(verified.get("invalidReason"), "payment_invalid"))
             settled = await facilitator.settle(payment, requirements)
             if not settled.get("success"):
-                return _payment_required(requirements, settled.get("errorReason") or "settlement_failed")
+                return _payment_required(requirements, _reason_code(settled.get("errorReason"), "settlement_failed"))
         except Exception:  # never echo facilitator errors: they can carry request details
             return _payment_required(requirements, "facilitator_unavailable")
         result = work(request)
@@ -73,6 +74,11 @@ def create_app(*, price: str, pay_to: str, network: str, facilitator: Facilitato
 
 def _json(status: int, body: Any, headers: dict | None = None) -> JSONResponse:
     return JSONResponse(body, status_code=status, headers={"cache-control": "no-store", **(headers or {})})
+
+
+def _reason_code(reason: Any, fallback: str) -> str:
+    """Facilitator reasons are passed on only as short codes; free text (RPC dumps, URLs) is replaced."""
+    return reason if isinstance(reason, str) and re.fullmatch(r"[a-z0-9_]{1,64}", reason) else fallback
 
 
 def _payment_required(requirements: dict, error: str) -> JSONResponse:
