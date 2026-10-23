@@ -6,8 +6,15 @@
     "strict": true,
     "noUncheckedIndexedAccess": true,
     "skipLibCheck": true,
-    "types": ["node"],
+    "types": [
+      "node"
+    ],
     "noEmit": true
   },
-  "include": ["src", "test", "scripts"]
+  "include": [
+    "src",
+    "test",
+    "scripts",
+    "api"
+  ]
 }

@@ -34,7 +34,9 @@ answers the registry's 402 by calling `pay(payment_required)` for the header val
 
 ## Base Sepolia proof (A5)
 
-Transaction hash of one paid call: pending (added after a live run with a funded test wallet).
+Live demo (base-sepolia, test USDC only): https://x402-paid-agent-starter.vercel.app/paid
+
+Transaction hash of one paid call: pending (the test payer wallet is waiting for faucet USDC). To produce it: fund a test wallet with base-sepolia USDC from https://faucet.circle.com, then `PAYER_PRIVATE_KEY=0x... npm run pay-once -- <url> (from typescript/)` and paste the printed transaction here.
 
 ## Files
 

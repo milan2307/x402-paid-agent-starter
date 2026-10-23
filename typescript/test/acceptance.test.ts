@@ -182,7 +182,10 @@ describe("A4 the listing script answers the registry's 402, pays and returns the
 });
 
 describe("A5 402 then a paid call on Base Sepolia, transaction hash in the README", () => {
-  it.todo("A5 live Base Sepolia run (needs a funded test wallet; hash goes in README)");
+  const proof = /Transaction hash of one paid call: (0x[0-9a-f]{64})/.exec(readFileSync("README.md", "utf8"));
+  it.skipIf(!proof)("A5 README records the Base Sepolia transaction of one paid call (run npm run pay-once)", () => {
+    expect(proof![1]).toMatch(/^0x[0-9a-f]{64}$/);
+  });
 });
 
 describe("A6 the Python starter mirrors A1 to A4 with pytest tests", () => {

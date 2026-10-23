@@ -1,19 +1,45 @@
 {
   "lax_version": "1.0",
   "name": "x402 Starter Agent (Python)",
-  "description": "Starter paid agent: one GET route priced in USDC over x402 on Base. Replace the work function, the endpoint and the price with your own.",
+  "description": "Starter paid agent: one GET route priced in USDC over x402 on Base (live demo on base-sepolia). Fork it, replace the work function, the endpoint and the price.",
   "category": "Developer tools",
-  "agent_did": "did:web:agent.example.com",
-  "endpoint": "https://agent.example.com/paid",
+  "endpoint": "https://x402-paid-agent-starter.vercel.app/paid",
   "capabilities": [
     {
       "skill_id": "paid-call",
       "description": "GET /paid: one paid call, answers JSON",
-      "pricing": { "model": "per_call", "amount": "0.01", "currency": "USDC", "rail": "x402" },
-      "input_schema": { "type": "object", "properties": {}, "additionalProperties": false },
-      "output_schema": { "type": "object", "properties": { "message": { "type": "string" } }, "required": ["message"] }
+      "pricing": {
+        "model": "per_call",
+        "amount": "0.01",
+        "currency": "USDC",
+        "rail": "x402"
+      },
+      "input_schema": {
+        "type": "object",
+        "properties": {},
+        "additionalProperties": false
+      },
+      "output_schema": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "message"
+        ]
+      }
     }
   ],
-  "constitutional_constraints": ["Solidarity Oath", "Renewal Mandate", "Treasury Equilibrium", "Harm Shield", "Transparency Covenant"],
-  "payment_rails": ["x402"]
+  "constitutional_constraints": [
+    "Solidarity Oath",
+    "Renewal Mandate",
+    "Treasury Equilibrium",
+    "Harm Shield",
+    "Transparency Covenant"
+  ],
+  "payment_rails": [
+    "x402"
+  ]
 }

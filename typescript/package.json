@@ -12,7 +12,8 @@
     "start": "tsx src/server.ts",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "list": "tsx scripts/list-offer.ts"
+    "list": "tsx scripts/list-offer.ts",
+    "pay-once": "tsx scripts/pay-once.ts"
   },
   "dependencies": {
     "@coinbase/cdp-sdk": "^1.60.0",

@@ -2,6 +2,7 @@
 import asyncio
 import base64
 import json
+import re
 from pathlib import Path
 
 import httpx
@@ -209,3 +210,10 @@ def test_A4_refused_listing_raises_without_echoing_the_payment():
     with pytest.raises(RuntimeError, match="400: offer refused") as err:
         asyncio.run(list_offer({"name": "x"}, pay, client=client))
     assert key not in str(err.value)
+
+
+def test_A5_readme_records_a_base_sepolia_paid_call():
+    proof = re.search(r"Transaction hash of one paid call: (0x[0-9a-f]{64})", (ROOT / "README.md").read_text())
+    if not proof:
+        pytest.skip("A5 pending: run the starter on base-sepolia and pay once (typescript: npm run pay-once)")
+    assert re.fullmatch(r"0x[0-9a-f]{64}", proof.group(1))
